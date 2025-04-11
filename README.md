@@ -1,5 +1,283 @@
 # Ultimate Network Debugging Command Cheatsheet for Web Developers
 
+
+# Apache, MySQL, and Nginx Command Cheatsheet
+
+## Apache HTTP Server Commands
+
+### Installation and Version Checking
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `httpd -v` | Check Apache version | `httpd -v` | Common on RHEL/CentOS |
+| `apache2 -v` | Check Apache version | `apache2 -v` | Common on Debian/Ubuntu |
+| `apachectl -v` | Check Apache version | `apachectl -v` | Universal Apache control |
+| `httpd -V` | Detailed version and build info | `httpd -V` | Shows compile settings |
+| `apache2 -V` | Detailed version and build info | `apache2 -V` | Shows compile settings |
+| `apachectl -V` | Detailed version and build info | `apachectl -V` | Shows compile settings |
+| `apt install apache2` | Install Apache (Debian/Ubuntu) | `apt install apache2` | Package manager installation |
+| `yum install httpd` | Install Apache (RHEL/CentOS) | `yum install httpd` | Package manager installation |
+| `dnf install httpd` | Install Apache (Fedora/RHEL 8+) | `dnf install httpd` | Package manager installation |
+
+### Apache Service Control
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `systemctl start apache2` | Start Apache (systemd) | `systemctl start apache2` | Debian/Ubuntu |
+| `systemctl start httpd` | Start Apache (systemd) | `systemctl start httpd` | RHEL/CentOS |
+| `service apache2 start` | Start Apache (init.d) | `service apache2 start` | Legacy systems |
+| `apachectl start` | Start Apache | `apachectl start` | Universal control script |
+| `systemctl stop apache2` | Stop Apache (systemd) | `systemctl stop apache2` | Debian/Ubuntu |
+| `systemctl stop httpd` | Stop Apache (systemd) | `systemctl stop httpd` | RHEL/CentOS |
+| `service apache2 stop` | Stop Apache (init.d) | `service apache2 stop` | Legacy systems |
+| `apachectl stop` | Stop Apache | `apachectl stop` | Universal control script |
+| `systemctl restart apache2` | Restart Apache (systemd) | `systemctl restart apache2` | Debian/Ubuntu |
+| `systemctl restart httpd` | Restart Apache (systemd) | `systemctl restart httpd` | RHEL/CentOS |
+| `service apache2 restart` | Restart Apache (init.d) | `service apache2 restart` | Legacy systems |
+| `apachectl restart` | Restart Apache | `apachectl restart` | Universal control script |
+| `systemctl reload apache2` | Reload config (systemd) | `systemctl reload apache2` | Debian/Ubuntu |
+| `systemctl reload httpd` | Reload config (systemd) | `systemctl reload httpd` | RHEL/CentOS |
+| `service apache2 reload` | Reload config (init.d) | `service apache2 reload` | Legacy systems |
+| `apachectl graceful` | Graceful restart | `apachectl graceful` | No connection interruption |
+| `systemctl status apache2` | Check status (systemd) | `systemctl status apache2` | Debian/Ubuntu |
+| `systemctl status httpd` | Check status (systemd) | `systemctl status httpd` | RHEL/CentOS |
+| `service apache2 status` | Check status (init.d) | `service apache2 status` | Legacy systems |
+| `apachectl status` | Check status | `apachectl status` | Universal control script |
+| `systemctl enable apache2` | Enable on boot (systemd) | `systemctl enable apache2` | Debian/Ubuntu |
+| `systemctl enable httpd` | Enable on boot (systemd) | `systemctl enable httpd` | RHEL/CentOS |
+| `chkconfig httpd on` | Enable on boot (init.d) | `chkconfig httpd on` | Legacy systems |
+| `systemctl disable apache2` | Disable on boot (systemd) | `systemctl disable apache2` | Debian/Ubuntu |
+| `systemctl disable httpd` | Disable on boot (systemd) | `systemctl disable httpd` | RHEL/CentOS |
+| `chkconfig httpd off` | Disable on boot (init.d) | `chkconfig httpd off` | Legacy systems |
+
+### Apache Configuration Testing and Management
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `httpd -t` | Test configuration | `httpd -t` | RHEL/CentOS |
+| `apache2 -t` | Test configuration | `apache2 -t` | Debian/Ubuntu |
+| `apachectl -t` | Test configuration | `apachectl -t` | Universal command |
+| `apachectl configtest` | Test configuration | `apachectl configtest` | Verbose alternative |
+| `httpd -S` | Show virtual hosts | `httpd -S` | RHEL/CentOS |
+| `apache2 -S` | Show virtual hosts | `apache2 -S` | Debian/Ubuntu |
+| `apachectl -S` | Show virtual hosts | `apachectl -S` | Universal command |
+| `httpd -l` | List compiled modules | `httpd -l` | Static modules only |
+| `apache2 -l` | List compiled modules | `apache2 -l` | Static modules only |
+| `apachectl -l` | List compiled modules | `apachectl -l` | Static modules only | 
+| `httpd -M` | List loaded modules | `httpd -M` | Static and shared modules |
+| `apache2 -M` | List loaded modules | `apache2 -M` | Static and shared modules |
+| `apachectl -M` | List loaded modules | `apachectl -M` | Static and shared modules |
+| `httpd -L` | List available config directives | `httpd -L` | RHEL/CentOS |
+| `apache2 -L` | List available config directives | `apache2 -L` | Debian/Ubuntu |
+| `apachectl -L` | List available config directives | `apachectl -L` | Universal command |
+
+### Apache Module Management
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `a2enmod module_name` | Enable Apache module | `a2enmod rewrite` | Debian/Ubuntu |
+| `a2dismod module_name` | Disable Apache module | `a2dismod status` | Debian/Ubuntu |
+| `a2ensite site_config` | Enable virtual host | `a2ensite example.com.conf` | Debian/Ubuntu |
+| `a2dissite site_config` | Disable virtual host | `a2dissite 000-default.conf` | Debian/Ubuntu |
+| `a2enconf conf_name` | Enable configuration | `a2enconf security` | Debian/Ubuntu |
+| `a2disconf conf_name` | Disable configuration | `a2disconf charset` | Debian/Ubuntu |
+| `a2query -m module_name` | Check if module is enabled | `a2query -m ssl` | Debian/Ubuntu |
+| `a2query -s site_name` | Check if site is enabled | `a2query -s example.com` | Debian/Ubuntu |
+| `apxs -i -a -c mod_example.c` | Compile and install module | `apxs -i -a -c mod_custom.c` | Build custom module |
+| `yum install mod_ssl` | Install module (RHEL/CentOS) | `yum install mod_ssl` | Package manager |
+| `apt install libapache2-mod-php` | Install module (Debian/Ubuntu) | `apt install libapache2-mod-php` | Package manager |
+
+### Apache Log Handling and Analysis
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `tail -f /var/log/apache2/access.log` | Watch access log | `tail -f /var/log/apache2/access.log` | Debian/Ubuntu |
+| `tail -f /var/log/httpd/access_log` | Watch access log | `tail -f /var/log/httpd/access_log` | RHEL/CentOS |
+| `tail -f /var/log/apache2/error.log` | Watch error log | `tail -f /var/log/apache2/error.log` | Debian/Ubuntu |
+| `tail -f /var/log/httpd/error_log` | Watch error log | `tail -f /var/log/httpd/error_log` | RHEL/CentOS |
+| `grep "404" /var/log/apache2/access.log` | Find 404 errors | `grep "404" /var/log/apache2/access.log` | Basic log search |
+| `grep -i "error" /var/log/apache2/error.log` | Find errors | `grep -i "error" /var/log/apache2/error.log` | Case-insensitive search |
+| `grep "POST" /var/log/apache2/access.log` | Find POST requests | `grep "POST" /var/log/apache2/access.log` | Search by method |
+| `grep "Mozilla" /var/log/apache2/access.log \| wc -l` | Count browser requests | `grep "Mozilla" /var/log/apache2/access.log \| wc -l` | Basic metrics |
+| `awk '{print $1}' /var/log/apache2/access.log \| sort \| uniq -c \| sort -nr` | Top client IPs | `awk '{print $1}' /var/log/apache2/access.log \| sort \| uniq -c \| sort -nr` | Traffic analysis |
+| `awk '{print $7}' /var/log/apache2/access.log \| sort \| uniq -c \| sort -nr` | Top requested URLs | `awk '{print $7}' /var/log/apache2/access.log \| sort \| uniq -c \| sort -nr` | Content popularity |
+| `awk -F\" '{print $2}' /var/log/apache2/access.log \| cut -d' ' -f2 \| sort \| uniq -c \| sort -nr` | URL count by path | `awk -F\" '{print $2}' /var/log/apache2/access.log \| cut -d' ' -f2 \| sort \| uniq -c \| sort -nr` | Path analysis |
+| `cat /var/log/apache2/access.log \| cut -d'"' -f6 \| sort \| uniq -c \| sort -nr` | Top user agents | `cat /var/log/apache2/access.log \| cut -d'"' -f6 \| sort \| uniq -c \| sort -nr` | Browser statistics |
+| `grep -i "error" /var/log/apache2/error.log | tail -100` | Last 100 errors | `grep -i "error" /var/log/apache2/error.log | tail -100` | Recent errors |
+| `grep "`date +"%b %d"`" /var/log/apache2/access.log` | Today's logs | `grep "`date +"%b %d"`" /var/log/apache2/access.log` | Date-based filtering |
+| `logrotate -f /etc/logrotate.d/apache2` | Force log rotation | `logrotate -f /etc/logrotate.d/apache2` | Manual rotation |
+| `gzip /var/log/apache2/access.log.1` | Compress old logs | `gzip /var/log/apache2/access.log.1` | Save disk space |
+| `apachetop -f /var/log/apache2/access.log` | Real-time log viewer | `apachetop -f /var/log/apache2/access.log` | Requires apachetop tool |
+| `goaccess /var/log/apache2/access.log` | Interactive log analyzer | `goaccess /var/log/apache2/access.log` | Requires goaccess tool |
+| `webalizer -c /etc/webalizer/webalizer.conf` | Generate log reports | `webalizer -c /etc/webalizer/webalizer.conf` | Requires webalizer tool |
+| `awstats -config=example.com` | Generate statistics | `awstats -config=example.com` | Requires awstats tool |
+| `rotatelogs /var/log/apache2/access.%Y%m%d.log 86400` | Programmatic rotation | `rotatelogs /var/log/apache2/access.%Y%m%d.log 86400` | Daily rotation |
+
+### Apache Performance and Debugging
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `ab -n 1000 -c 10 http://example.com/` | Apache benchmark | `ab -n 1000 -c 10 http://localhost/` | Load testing |
+| `ab -n 100 -c 10 -k http://example.com/` | Keep-alive benchmark | `ab -n 100 -c 10 -k http://localhost/` | Connection reuse |
+| `ab -n 100 -c 10 -A user:pass http://example.com/` | Auth benchmark | `ab -n 100 -c 10 -A admin:secret http://localhost/admin/` | Basic auth test |
+| `ab -n 100 -c 10 -H "Accept-Encoding: gzip" http://example.com/` | GZIP benchmark | `ab -n 100 -c 10 -H "Accept-Encoding: gzip" http://localhost/` | Compression test |
+| `apache2ctl fullstatus` | Show full status | `apache2ctl fullstatus` | Requires mod_status |
+| `curl http://localhost/server-status` | Check server status | `curl http://localhost/server-status` | Requires mod_status |
+| `watch -n1 "curl -s http://localhost/server-status \| grep 'requests/sec' \| awk '{print \$1}'"` | Monitor requests/sec | `watch -n1 "curl -s http://localhost/server-status \| grep 'requests/sec' \| awk '{print \$1}'"` | Real-time monitoring |
+| `httpd -d /path/to/directive` | Explain a directive | `httpd -d MaxClients` | Documentation helper |
+| `lsof -i :80` | Check port usage | `lsof -i :80` | Which process uses port 80 |
+| `lsof -p $(pgrep -d, apache2)` | Check Apache file usage | `lsof -p $(pgrep -d, apache2)` | Open files by Apache |
+| `netstat -tlnp \| grep apache` | Check listening ports | `netstat -tlnp \| grep apache` | Apache network usage |
+| `strace -p $(pgrep -n apache2)` | Trace Apache system calls | `strace -p $(pgrep -n apache2)` | Debug system interactions |
+| `ltrace -p $(pgrep -n apache2)` | Trace Apache library calls | `ltrace -p $(pgrep -n apache2)` | Debug library interactions |
+| `htop -p $(pgrep -d, apache2)` | Monitor Apache processes | `htop -p $(pgrep -d, apache2)` | Resource usage |
+
+### Apache Security and SSL
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `openssl req -new -newkey rsa:2048 -nodes -keyout server.key -out server.csr` | Generate CSR | `openssl req -new -newkey rsa:2048 -nodes -keyout example.key -out example.csr` | Certificate request |
+| `openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt` | Self-sign certificate | `openssl x509 -req -days 365 -in example.csr -signkey example.key -out example.crt` | For testing only |
+| `a2enmod ssl` | Enable SSL module | `a2enmod ssl` | Debian/Ubuntu |
+| `a2ensite default-ssl` | Enable SSL site | `a2ensite default-ssl` | Debian/Ubuntu |
+| `openssl s_client -connect example.com:443` | Test SSL connection | `openssl s_client -connect localhost:443` | SSL debugging |
+| `openssl s_client -connect example.com:443 -tls1_2` | Test specific TLS version | `openssl s_client -connect localhost:443 -tls1_2` | Protocol testing |
+| `openssl s_client -connect example.com:443 -servername example.com` | Test SNI | `openssl s_client -connect cdn.example.com:443 -servername cdn.example.com` | SNI verification |
+| `openssl x509 -in server.crt -text -noout` | Examine certificate | `openssl x509 -in example.crt -text -noout` | Certificate details |
+| `openssl rsa -in server.key -check` | Verify private key | `openssl rsa -in example.key -check` | Key validation |
+| `openssl verify -CAfile ca.crt server.crt` | Verify certificate | `openssl verify -CAfile ca.crt example.crt` | Certificate validation |
+| `certbot --apache -d example.com` | Get Let's Encrypt cert | `certbot --apache -d example.com -d www.example.com` | Free SSL certificates |
+| `apache2ctl -M \| grep ssl` | Check if SSL is loaded | `apache2ctl -M \| grep ssl` | Module verification |
+| `grep -r "SSLCertificateFile" /etc/apache2/` | Find SSL certificate path | `grep -r "SSLCertificateFile" /etc/apache2/` | Config inspection |
+| `curl -I -v https://example.com` | Test HTTPS headers | `curl -I -v https://localhost` | Header inspection |
+| `curl -v https://example.com 2>&1 \| grep "subject:"` | Check certificate subject | `curl -v https://localhost 2>&1 \| grep "subject:"` | Certificate check |
+
+### Apache Multi-Processing Modules (MPM)
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `apache2ctl -V \| grep MPM` | Check current MPM | `apache2ctl -V \| grep MPM` | Active MPM |
+| `a2dismod mpm_prefork` | Disable prefork MPM | `a2dismod mpm_prefork` | Debian/Ubuntu |
+| `a2enmod mpm_event` | Enable event MPM | `a2enmod mpm_event` | Debian/Ubuntu |
+| `grep -r "MaxRequestWorkers" /etc/apache2/` | Find worker settings | `grep -r "MaxRequestWorkers" /etc/apache2/` | Performance tuning |
+| `grep -r "MaxConnectionsPerChild" /etc/apache2/` | Find connection limits | `grep -r "MaxConnectionsPerChild" /etc/apache2/` | Leak prevention |
+| `ps -ylC apache2 --sort:rss` | Sort Apache processes by memory | `ps -ylC apache2 --sort:rss` | Memory usage |
+
+### Apache Virtual Hosts
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `mkdir -p /var/www/example.com/public_html` | Create site directory | `mkdir -p /var/www/example.com/public_html` | Document root |
+| `chown -R www-data:www-data /var/www/example.com` | Set permissions | `chown -R www-data:www-data /var/www/example.com` | Security measure |
+| `cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/example.com.conf` | Create vhost config | `cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/example.com.conf` | Configuration template |
+| `a2ensite example.com.conf` | Enable site | `a2ensite example.com.conf` | Debian/Ubuntu |
+| `a2dissite 000-default.conf` | Disable default site | `a2dissite 000-default.conf` | Debian/Ubuntu |
+| `apache2ctl -S` | Show virtual hosts | `apache2ctl -S` | Config verification |
+| `curl -H "Host: example.com" http://localhost` | Test virtual host | `curl -H "Host: example.com" http://localhost` | Virtual host testing |
+| `echo "127.0.0.1 example.com" >> /etc/hosts` | Add hosts entry | `echo "127.0.0.1 example.com" >> /etc/hosts` | Local DNS override |
+| `dig example.com` | Check DNS resolution | `dig example.com` | DNS verification |
+
+### Apache Advanced Configuration
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `htpasswd -c /etc/apache2/.htpasswd user1` | Create .htpasswd file | `htpasswd -c /etc/apache2/.htpasswd admin` | For basic auth |
+| `htpasswd -b /etc/apache2/.htpasswd user2 password` | Add user non-interactively | `htpasswd -b /etc/apache2/.htpasswd editor secret` | For scripting |
+| `htpasswd -D /etc/apache2/.htpasswd user3` | Delete user | `htpasswd -D /etc/apache2/.htpasswd olduser` | Remove access |
+| `htdbm -c -T DB /etc/apache2/htdbm.db user1` | Create DBM password file | `htdbm -c -T DB /etc/apache2/htdbm.db admin` | For large user sets |
+| `htdigest -c /etc/apache2/.htdigest "My Realm" user1` | Create digest auth file | `htdigest -c /etc/apache2/.htdigest "Private Area" admin` | Secure auth |
+| `ab -A user1:password -n 10 http://example.com/secured/` | Test basic auth | `ab -A admin:secret -n 10 http://localhost/secured/` | Auth verification |
+| `httxt2dbm -i rewritemap.txt -o rewritemap.dbm` | Create rewrite map | `httxt2dbm -i urls.txt -o urls.dbm` | For mod_rewrite |
+| `logresolve < access.log > resolved.log` | Resolve IP addresses | `logresolve < /var/log/apache2/access.log > resolved.log` | DNS lookups |
+| `rotatelogs /var/log/apache2/%Y-%m-%d-access.log 86400` | Rotate logs | `rotatelogs /var/log/apache2/%Y-%m-%d-access.log 86400` | Custom log rotation |
+
+## MySQL/MariaDB Commands
+
+### Installation and Version Information
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `mysql --version` | Check MySQL version | `mysql --version` | CLI version |
+| `mysqladmin -V` | Check MySQL admin version | `mysqladmin -V` | Admin tool version |
+| `apt install mysql-server` | Install MySQL (Debian/Ubuntu) | `apt install mysql-server` | Package installation |
+| `yum install mysql-server` | Install MySQL (RHEL/CentOS) | `yum install mysql-server` | Package installation |
+| `apt install mariadb-server` | Install MariaDB (Debian/Ubuntu) | `apt install mariadb-server` | Package installation |
+| `yum install mariadb-server` | Install MariaDB (RHEL/CentOS) | `yum install mariadb-server` | Package installation |
+| `mysql_secure_installation` | Secure MySQL installation | `mysql_secure_installation` | Post-install security |
+| `mysql_install_db` | Initialize MySQL data directory | `mysql_install_db --user=mysql` | First-time setup |
+| `mysqld --help --verbose` | Show all MySQL options | `mysqld --help --verbose` | Configuration help |
+
+### MySQL Service Control
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `systemctl start mysql` | Start MySQL (systemd) | `systemctl start mysql` | Debian/Ubuntu |
+| `systemctl start mysqld` | Start MySQL (systemd) | `systemctl start mysqld` | RHEL/CentOS |
+| `service mysql start` | Start MySQL (init.d) | `service mysql start` | Legacy systems |
+| `systemctl stop mysql` | Stop MySQL (systemd) | `systemctl stop mysql` | Debian/Ubuntu |
+| `systemctl stop mysqld` | Stop MySQL (systemd) | `systemctl stop mysqld` | RHEL/CentOS |
+| `service mysql stop` | Stop MySQL (init.d) | `service mysql stop` | Legacy systems |
+| `systemctl restart mysql` | Restart MySQL (systemd) | `systemctl restart mysql` | Debian/Ubuntu |
+| `systemctl restart mysqld` | Restart MySQL (systemd) | `systemctl restart mysqld` | RHEL/CentOS |
+| `service mysql restart` | Restart MySQL (init.d) | `service mysql restart` | Legacy systems |
+| `systemctl status mysql` | Check MySQL status (systemd) | `systemctl status mysql` | Debian/Ubuntu |
+| `systemctl status mysqld` | Check MySQL status (systemd) | `systemctl status mysqld` | RHEL/CentOS |
+| `service mysql status` | Check MySQL status (init.d) | `service mysql status` | Legacy systems |
+| `systemctl enable mysql` | Enable MySQL on boot (systemd) | `systemctl enable mysql` | Debian/Ubuntu |
+| `systemctl enable mysqld` | Enable MySQL on boot (systemd) | `systemctl enable mysqld` | RHEL/CentOS |
+| `chkconfig mysqld on` | Enable MySQL on boot (init.d) | `chkconfig mysqld on` | Legacy systems |
+| `mysqladmin ping` | Check if MySQL is running | `mysqladmin ping` | Quick availability test |
+| `mysqladmin -u root -p shutdown` | Shutdown MySQL | `mysqladmin -u root -p shutdown` | Clean shutdown |
+| `mysqladmin -u root -p reload` | Reload privileges | `mysqladmin -u root -p reload` | After grant changes |
+| `mysqladmin -u root -p refresh` | Refresh tables and logs | `mysqladmin -u root -p refresh` | Flush caches |
+
+### MySQL Authentication and Connection
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `mysql -u username -p` | Connect to MySQL | `mysql -u root -p` | Basic authentication |
+| `mysql -u username -p database_name` | Connect to specific database | `mysql -u app_user -p customer_db` | DB selection |
+| `mysql -u username -h hostname -p` | Connect to remote MySQL | `mysql -u admin -h db.example.com -p` | Remote connection |
+| `mysql -u username -p --port=3307` | Connect on non-standard port | `mysql -u root -p --port=3307` | Custom port |
+| `mysql -u username -p --protocol=TCP` | Force TCP protocol | `mysql -u root -p --protocol=TCP` | Skip socket |
+| `mysql -u username -p --compress` | Compress client/server traffic | `mysql -u app_user -p --compress` | For slow networks |
+| `mysql -u username -p --ssl` | Connect using SSL | `mysql -u app_user -p --ssl` | Encrypted connection |
+| `mysql -u username -p --skip-column-names` | Output without column names | `mysql -u app_user -p --skip-column-names` | Clean output |
+| `mysql -u username -p --xml` | XML output format | `mysql -u app_user -p --xml` | Structured output |
+| `mysql -u username -p --html` | HTML output format | `mysql -u app_user -p --html` | Web-friendly output |
+| `mysql -u username -p --pager="less -S"` | Use pager for output | `mysql -u app_user -p --pager="less -S"` | Better viewing |
+| `mysql --defaults-file=/path/to/my.cnf` | Use specific config file | `mysql --defaults-file=/etc/mysql/custom.cnf` | Custom configuration |
+| `mysql_config_editor set --login-path=client --host=localhost --user=root --password` | Store credentials securely | `mysql_config_editor set --login-path=local --user=root --password` | Avoid password in command line |
+| `mysql --login-path=local` | Use stored credentials | `mysql --login-path=local` | Secure connection |
+
+### MySQL User Management
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `CREATE USER 'username'@'host' IDENTIFIED BY 'password';` | Create user | `CREATE USER 'app_user'@'localhost' IDENTIFIED BY 'SecurePass123';` | SQL command |
+| `DROP USER 'username'@'host';` | Delete user | `DROP USER 'old_user'@'localhost';` | SQL command |
+| `RENAME USER 'old_username'@'host' TO 'new_username'@'host';` | Rename user | `RENAME USER 'app_user'@'localhost' TO 'web_user'@'localhost';` | SQL command |
+| `SET PASSWORD FOR 'username'@'host' = PASSWORD('new_password');` | Change password (old syntax) | `SET PASSWORD FOR 'app_user'@'localhost' = PASSWORD('NewPass456');` | MySQL 5.7 and earlier |
+| `ALTER USER 'username'@'host' IDENTIFIED BY 'new_password';` | Change password (new syntax) | `ALTER USER 'app_user'@'localhost' IDENTIFIED BY 'NewPass456';` | MySQL 8.0+ |
+| `GRANT permission ON database.table TO 'username'@'host';` | Grant privileges | `GRANT SELECT, INSERT, UPDATE ON customer_db.* TO 'app_user'@'localhost';` | SQL command |
+| `REVOKE permission ON database.table FROM 'username'@'host';` | Revoke privileges | `REVOKE DROP ON customer_db.* FROM 'app_user'@'localhost';` | SQL command |
+| `GRANT ALL PRIVILEGES ON database.* TO 'username'@'host';` | Grant all privileges | `GRANT ALL PRIVILEGES ON customer_db.* TO 'admin'@'localhost';` | SQL command |
+| `SHOW GRANTS FOR 'username'@'host';` | Show user privileges | `SHOW GRANTS FOR 'app_user'@'localhost';` | SQL command |
+| `FLUSH PRIVILEGES;` | Apply privilege changes | `FLUSH PRIVILEGES;` | SQL command |
+| `SELECT User, Host FROM mysql.user;` | List all users | `SELECT User, Host FROM mysql.user;` | SQL command |
+| `SELECT * FROM mysql.user WHERE User='username';` | Get user details | `SELECT * FROM mysql.user WHERE User='app_user';` | SQL command |
+| `mysqladmin -u root -p password "new_password"` | Change root password | `mysqladmin -u root -p password "SecureRoot789"` | CLI command |
+| `ALTER USER 'username'@'host' IDENTIFIED WITH 'plugin_name' BY 'password';` | Set auth plugin | `ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'password';` | Authentication plugin |
+
+### MySQL Database Management
+
+| Command | Description | Example | Notes |
+|---------|-------------|---------|-------|
+| `SHOW DATABASES;` | List all databases | `SHOW DATABASES;` | SQL command |
+| `CREATE DATABASE database_name;` | Create database | `CREATE DATABASE customer_db;` | SQL command |
+| `CREATE DATABASE database_name CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;` | Create with charset
+
+
 ## Basic Connectivity Testing
 
 | Command | Description | Example | Notes |
